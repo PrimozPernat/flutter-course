@@ -6,6 +6,11 @@ import 'package:udemiy_project/pages/products_page.dart';
 class ProductsAdminPage extends StatelessWidget {
   static const String PAGE_PATH =  "/admin";
 
+  Function deleteProduct;
+  Function addProduct;
+
+  ProductsAdminPage(this.addProduct, this.deleteProduct);
+
 
 
   @override
@@ -41,7 +46,7 @@ class ProductsAdminPage extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[ProductCreatePage(), ProductListPage()],
+          children: <Widget>[ProductCreatePage(addProduct), ProductListPage()],
         ),
       ),
     );

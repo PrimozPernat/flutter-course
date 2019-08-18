@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProductCreatePage extends StatefulWidget {
+  Function addProduct;
+
+  ProductCreatePage(this.addProduct);
+
   @override
   State createState() {
     return _ProductCreatePageState();
@@ -8,9 +12,10 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String titleValue = "";
-  String description = "";
-  double price = 0.0;
+  String _titleValue = "";
+  String _description = "";
+  double _price = 0.0;
+  bool _acceptTerms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             decoration: InputDecoration(labelText: "Product Title"),
             onChanged: (String value) {
               setState(() {
-                titleValue = value;
+                _titleValue = value;
               });
             },
           ),
@@ -32,7 +37,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             maxLines: 4,
             onChanged: (String value) {
               setState(() {
-                description = value;
+                _description = value;
               });
             },
           ),
@@ -41,12 +46,37 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
               decoration: InputDecoration(labelText: "Product Price"),
               onChanged: (String value) {
                 setState(() {
-                  price = double.parse(value);
+                  _price = double.parse(value);
                 });
               }),
+          SwitchListTile(
+            value: _acceptTerms,
+            title: Text("Accept Terms"),
+            onChanged: (bool value) {
+              setState(() {
+                _acceptTerms = value;
+              });
+            },
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
           RaisedButton(
             child: Text("Save"),
-            onPressed: () {},
+            color: Theme.of(context).accentColor,
+            textColor: Colors.white,
+            onPressed: () {
+              final Map<String, dynamic> product = {
+                "title": _titleValue,
+                "description": _description,
+                "price": _price,
+                "image": "assets/united.jpg"
+              };
+
+              widget.addProduct(product);
+
+              Navigator.pushReplacementNamed(context, "/");
+            },
           )
         ],
       ),
